@@ -1,0 +1,41 @@
+#cloud-config
+
+users:
+# REMOVE FOR PROD
+  - name: admin
+    groups: users, sudo
+    shell: /bin/bash
+    lock_passwd: false
+    #hash for "password"
+    passwd: $6$rounds=4096$E4QOuJYzriV7lq$3AddYRUViZCIheTCYXyQs5TO65T5mtiYAChV7ijAY1xImirCYfY3/gP.ZG6B.spjJQmtSlyqzIkNZaOJmLh2r/
+
+  - name: ci
+    groups: users, docker
+    shell: /bin/bash
+    ssh_authorized_keys:
+      - ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIHn6w4FpufWM7kjAI3zDTAv//an/ybjhBi/Ia8V8TSVO eric.krueger.ek@gmail.com
+
+packages:
+  - fail2ban
+  - ca-certificates
+  - curl
+  - gnupg
+package_update: true
+package_upgrade: true
+runcmd:
+#docker install
+  - install -m 0755 -d /etc/apt/keyrings
+  - curl -fsSL https://download.docker.com/linux/debian/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
+  - sudo chmod a+r /etc/apt/keyrings/docker.gpg
+  - echo  "deb [arch="$(dpkg --print-architecture)" signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/debian  "$(. /etc/os-release && echo "$VERSION_CODENAME")" stable" |  sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+  - apt -y update
+  - apt -y install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+#
+  - mkdir /home/ci/backup
+  - systemctl enable fail2ban
+# ssh config
+  - sed -i -e '/^\(#\|\)PermitRootLogin/s/^.*$/PermitRootLogin no/' /etc/ssh/sshd_config
+  - sed -i -e '/^\(#\|\)PasswordAuthentication/s/^.*$/PasswordAuthentication no/' /etc/ssh/sshd_config
+  - sed -i -e '/^\(#\|\)AuthorizedKeysFile/s/^.*$/AuthorizedKeysFile .ssh\/authorized_keys/' /etc/ssh/sshd_config
+  - sed -i '$a AllowUsers ci' /etc/ssh/sshd_config
+  - reboot
