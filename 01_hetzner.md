@@ -2,8 +2,10 @@
 
 *based on [this tutorial](https://community.hetzner.com/tutorials/basic-cloud-config)*
 - create ssh key pair 
-- copy pub key to file config
-
+    `ssh-keygen -b 4096`
+- copy pub key to file config  
+    **MacOS:** `cat ~/.ssh/my_pub_key | pbcopy`   
+    **Linux:** `cat ~/.ssh/my_pub_key | xclip -selection clipboard`
 
 ### Config from URL
 
@@ -14,7 +16,7 @@
 https://URLtoCode/config.yaml
 ```
 
-- example usage for this repo
+- *example usage for this repo*
 
 ```yaml
 #include

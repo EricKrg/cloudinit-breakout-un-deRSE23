@@ -13,6 +13,10 @@ users:
     groups: users, docker
     shell: /bin/bash
     ssh_authorized_keys:
+      # Checking in public SSH keys into a GitHub repository is generally safe, as the public key is designed to be shared
+      # If you're using the public key for a service (like allowing access to a server), someone could potentially use that knowledge to attempt to spam or 
+      # perform denial-of-service attacks, knowing that the server will spend resources trying to authenticate the bogus attempts.
+      # Furthermore Having public keys checked in might provide information on which entities or persons you're interacting with, which could be a privacy concern in some contexts.
       - ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIHn6w4FpufWM7kjAI3zDTAv//an/ybjhBi/Ia8V8TSVO eric.krueger.ek@gmail.com
 
 packages:
