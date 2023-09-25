@@ -17,7 +17,9 @@ users:
       # If you're using the public key for a service (like allowing access to a server), someone could potentially use that knowledge to attempt to spam or 
       # perform denial-of-service attacks, knowing that the server will spend resources trying to authenticate the bogus attempts.
       # Furthermore Having public keys checked in might provide information on which entities or persons you're interacting with, which could be a privacy concern in some contexts.
-      - ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIHn6w4FpufWM7kjAI3zDTAv//an/ybjhBi/Ia8V8TSVO eric.krueger.ek@gmail.com
+
+      # MODIFIY THIS Pub-Key
+      - ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIHn6w4FpufWM7kjAI3zDTAv//an/ybjhBi/Ia8V8TSVO 
 
 packages:
   - apt-transport-https
