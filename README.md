@@ -39,8 +39,8 @@ sudo apt install qemu-system-x86 python3
 ### Clone Cloud-Init Configuration
 
 ```bash
-git clone https://github.com/EricKrg/cloudinit-breakout-un-deRSE23.git
-cd cloudinit-breakout-un-deRSE23
+git clone git@gitlab.com:dmp4cs/server-cloud-init.git
+cd server-cloud-init
 ```
 
 ### Obtain a Cloud-Init Enabled Image
@@ -77,7 +77,7 @@ This primary configuration file encompasses:
 - Cross-distribution package installations
 - Shell script executions
 
-To explore additional features, refer to this link: [Cloud-Init Docs](https://cloudinit.readthedocs.io/en/latest/reference/modules.html)
+To explore additional features, refer to the future link: TODO link
 
 ## Data Sources
 
@@ -136,4 +136,10 @@ To execute cloud-init on the next boot:
 
 ```bash
 sudo cloud-init clean --logs
+```
+
+Create a script or alias to reset your virtual hard drive:
+
+```bash
+rm snapshot.qcow2 && qemu-img create -f qcow2 -b debian.qcow2 -F qcow2 snapshot.qcow2
 ```
